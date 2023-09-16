@@ -1,3 +1,0 @@
-This is a dummy placeholder file. Yay.
-
-Now we made a change to make sure we can sync to the repository. Double-yay!
