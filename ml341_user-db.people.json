@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "650f75b50809019a9a2fb6fe"
+  },
+  "firstName": "Mike",
+  "lastName": "Lewis",
+  "email": "wyoming.c64@gmail.com",
+  "favoriteColor": "Redd",
+  "birthday": "May 5"
+},
+{
+  "_id": {
+    "$oid": "650f75b50809019a9a2fb6ff"
+  },
+  "firstName": "Cari",
+  "lastName": "Lewis",
+  "email": "cari@email.com",
+  "favoriteColor": "Green",
+  "birthday": "June 22"
+},
+{
+  "_id": {
+    "$oid": "650f75b50809019a9a2fb700"
+  },
+  "firstName": "Melanie",
+  "lastName": "Lewis",
+  "email": "melanie@email.com",
+  "favoriteColor": "Purple",
+  "birthday": "June 26"
+},
+{
+  "_id": {
+    "$oid": "650f75b50809019a9a2fb701"
+  },
+  "firstName": "Braden",
+  "lastName": "Lewis",
+  "email": "braden@email.com",
+  "favoriteColor": "Trumpet Brass",
+  "birthday": "January 8"
+},
+{
+  "_id": {
+    "$oid": "650f75b50809019a9a2fb702"
+  },
+  "firstName": "Chris",
+  "lastName": "Lewis",
+  "email": "chris@email.com",
+  "favoriteColor": "Black Hole Black",
+  "birthday": "November 24"
+},
+{
+  "_id": {
+    "$oid": "650f75b50809019a9a2fb703"
+  },
+  "firstName": "Haelie",
+  "lastName": "Lewis",
+  "email": "haelie@email.com",
+  "favoriteColor": "Pinkalicious Pink",
+  "birthday": "August 8"
+}]
