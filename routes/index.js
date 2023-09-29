@@ -1,10 +1,14 @@
+// ROUTES
+
 const routes = require('express').Router();
-const controller = require('../controllers/controller');
 
-routes.get('/', controller.defaultRoute);
-routes.get('/contacts', controller.getData);
-routes.get('/contacts/:id', controller.getOne);
+const getController = require('../controllers/getController');
+const postController = require('../controllers/postController');
+const putController = require('../controllers/putController');
+const deleteController = require('../controllers/deleteController');
 
-
+routes.get('/', getController.defaultRoute);
+routes.get('/contacts', getController.getData);
+routes.get('/contacts/:id', getController.getOne);
 
 module.exports = routes;

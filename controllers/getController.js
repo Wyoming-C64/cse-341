@@ -1,9 +1,20 @@
+// GET Controller
+
 const mongoDb = require('../db/connect'); // Must connect to DB if not already.
 const {ObjectId} = require('mongodb');
 
-
 const defaultRoute = async(req, res) => {
-  res.send("Default route - no data requested.");
+  res.send(
+    "<!DOCTYPE html>" +
+    "<html>" +
+    " <head>" +
+    "   <title>Mike's Contacts API version 0.3</title>" +
+    " </head>" +
+    " <body>" +
+    "   <pre>Mike's Contacts API version 0.3</pre>" +
+    " </body>" +
+    "</html>"
+  );
 }
 
 const getData = async (req, res, next) => {
@@ -25,8 +36,9 @@ const getOne = async (req, res, next) => {
   res.status(200).json(result);                       // Set HTTP status and return only the matching result from the database.
 }
 
-  module.exports = {
-    defaultRoute,
-    getData,
-    getOne
-  };
+
+module.exports = {
+  defaultRoute,
+  getData,
+  getOne
+};
