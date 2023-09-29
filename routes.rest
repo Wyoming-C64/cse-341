@@ -1,0 +1,25 @@
+// LOCALHOST
+###
+GET http://localhost:8080/
+### Returns a default message - no data.
+GET http://localhost:8080/contacts
+### Returns all contacts in DB.
+GET http://localhost:8080/contacts?id=650f75b50809019a9a2fb6fe
+### Returns Mike Lewis
+GET http://localhost:8080/contacts?id=650f75b50809019a9a2fb6ff
+### Returns Cari Lewis
+GET http://localhost:8080/contacts?id=650f75b50809019a9a2fb700
+### Returns Melanie Lewis
+
+// RENDER DEPLOYMENT
+###
+GET https://contact-list-3kmf.onrender.com/
+### Returns a default message - no data.
+GET https://contact-list-3kmf.onrender.com/contacts/
+### Returns all contacts in DB.
+GET https://contact-list-3kmf.onrender.com/contacts?id=650f75b50809019a9a2fb701
+### Returns Braden Lewis
+GET https://contact-list-3kmf.onrender.com/contacts?id=650f75b50809019a9a2fb702
+### Returns Chris Lewis
+GET https://contact-list-3kmf.onrender.com/contacts?id=650f75b50809019a9a2fb703
+### Returns Haelie Lewis
