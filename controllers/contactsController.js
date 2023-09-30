@@ -39,7 +39,7 @@ const postData = async (req, res) => {
     (resultData) => {
       console.log(resultData) 
       res.setHeader('Content-Type', 'application/json'); 
-      res.status(201).json(resultData);  // 200 CREATED
+      res.status(201).json(resultData);  // 201 CREATED
     }
   );
   
@@ -48,20 +48,28 @@ const postData = async (req, res) => {
 
 /////// PUT ///////
 const putData = async (req, res, next) => {
-  console.log('PUT');
-  console.log(req.params.id);
-  console.log(req.body);
-  // const myObjId = new ObjectId(req.params.id);
-  // const dbResult = mongoDb.getDb().db('ml341_user-db').collection('contacts').findOneAndUpdate(
-  //   {"_id": myObjId }
-  // );   
-  // dbResult.then( 
-  //   (resultData) => {
-  //     console.log(resultData) 
-  //     res.setHeader('Content-Type', 'application/json'); 
-  //     res.status(201).json(resultData);  // 200 CREATED
-  //   }
-  // );
+  const myObjId = new ObjectId(req.params.id);
+  const dbResult = mongoDb.getDb()
+    .db('ml341_user-db')
+    .collection('contacts')
+    .findOneAndUpdate(
+      {"_id": myObjId },
+      { $set : req.body }
+  );   
+  dbResult.then( 
+    (resultData) => {
+      const response = resultData.ok === 1 ? {
+        responseText: "OK",
+        responseCode: 200
+      } : {
+        responseText: "Error updating document.",
+        responseCode: 500
+      };
+      console.log(response) 
+      res.setHeader('Content-Type', 'application/json'); 
+      res.status(response.responseCode).json(response);
+    }
+  );
 };
 
 
