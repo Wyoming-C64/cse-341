@@ -32,17 +32,18 @@ const getOne = async (req, res, next) => {
 
 /////// POST ///////
 const postData = async (req, res) => {
-  const dbResult = mongoDb.getDb().db('ml341_user-db').collection('contacts').insertOne(
-    req.body
-  );   
+  const dbResult = mongoDb.getDb()
+    .db('ml341_user-db')
+    .collection('contacts')
+    .insertOne( req.body );
+
   dbResult.then( 
     (resultData) => {
-      console.log(resultData) 
+      console.log("Added document.") 
       res.setHeader('Content-Type', 'application/json'); 
       res.status(201).json(resultData);  // 201 CREATED
     }
   );
-  
     
 };
 
@@ -75,9 +76,20 @@ const putData = async (req, res, next) => {
 
 /////// DELETE ///////
 const deleteData = async (req, res, next) => {
-  console.log("DELETE");
-  console.log(req.body);
-  return true;
+  const myObjId = new ObjectId(req.params.id);
+  const dbResult = mongoDb.getDb()
+    .db('ml341_user-db')
+    .collection('contacts')
+    .deleteOne(
+      {"_id": myObjId }
+  );   
+  dbResult.then( 
+    (resultData) => {
+      console.log("Delete document " + req.params.id) 
+      res.setHeader('Content-Type', 'application/json'); 
+      res.status(200).json(resultData);
+    }
+  );
 };
 
 module.exports = {

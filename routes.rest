@@ -41,5 +41,5 @@ content-type: application/json
 // DELETE
 ### Delete a specific document: Remove Sammy (the family dog) 
 ### from the collection.
-DELETE http://localhost:8080/contacts/65182ef0fa5c2a99640fefef HTTP/1.1
+DELETE http://localhost:8080/contacts/65189af1be4362bd2b0a275e HTTP/1.1
 content-type: application/json
