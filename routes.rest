@@ -1,19 +1,21 @@
-// LOCALHOST
+//////////////////////////////////////////////
+////////////////  LOCALHOST  /////////////////
+//////////////////////////////////////////////
 
 // GET
 ### Returns a default message - no data.
 GET http://localhost:8080/ HTTP/1.1
 
 
-### Returns all contacts in DB.
+### Read and return all contacts in DB.
 GET http://localhost:8080/contacts HTTP/1.1
 
-### Returns a single document: Mike Lewis
+### Read and return a single document specified by ID.
 GET http://localhost:8080/contacts/650f75b50809019a9a2fb6fe HTTP/1.1
 
 
 // POST
-### Add a new document to the collection.
+### Create a new document and add to the collection.
 POST http://localhost:8080/contacts HTTP/1.1
 content-type: application/json
 
@@ -26,7 +28,7 @@ content-type: application/json
 }
 
 // PUT
-### Update a specific document: Change Melanie's e-mail and fav. color. 
+### Update/change a specific document specified by ID.
 PUT http://localhost:8080/contacts/650f75b50809019a9a2fb700 HTTP/1.1
 content-type: application/json
 
@@ -34,12 +36,60 @@ content-type: application/json
     "firstName": "Melanie",
     "lastName": "Lewis",
     "email": "traingirl@email.com",
-    "favoriteColor": "Sapphire",
+    "favoriteColor": "Emerald Green",
     "birthday": "June 26"
 }
 
 // DELETE
-### Delete a specific document: Remove Sammy (the family dog) 
-### from the collection.
+### Delete a specific document specified by ID. 
 DELETE http://localhost:8080/contacts/65189af1be4362bd2b0a275e HTTP/1.1
+content-type: application/json
+
+
+//////////////////////////////////////////////
+/////////////////   RENDER   /////////////////
+//////////////////////////////////////////////
+
+
+// GET
+### Returns a default message - no data.
+GET https://contacts-week-03.onrender.com/ HTTP/1.1
+
+
+### Read and return all contacts in DB.
+GET https://contacts-week-03.onrender.com/contacts HTTP/1.1
+
+### Read and return a single document specified by ID.
+GET https://contacts-week-03.onrender.com/contacts/650f75b50809019a9a2fb700 HTTP/1.1
+
+
+// POST
+### Create a new document and add to the collection.
+POST https://contacts-week-03.onrender.com/contacts HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Sammy",
+    "lastName": "Lewis",
+    "email": "sammy@email.com",
+    "favoriteColor": "Blonde",
+    "birthday": "April 16"
+}
+
+// PUT
+### Update/change a specific document specified by ID. 
+PUT https://contacts-week-03.onrender.com/contacts/650f75b50809019a9a2fb700 HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Melanie Rae",
+    "lastName": "Lewis",
+    "email": "traingirl@email.com",
+    "favoriteColor": "Purple",
+    "birthday": "June 26"
+}
+
+// DELETE
+### Delete a specific document specified by ID. 
+DELETE https://contacts-week-03.onrender.com/contacts/6518a4d517a48ee0bba436fd HTTP/1.1
 content-type: application/json

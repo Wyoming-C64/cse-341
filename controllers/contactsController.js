@@ -60,8 +60,8 @@ const putData = async (req, res, next) => {
   dbResult.then( 
     (resultData) => {
       const response = resultData.ok === 1 ? {
-        responseText: "OK",
-        responseCode: 200
+        responseText: "Success",
+        responseCode: 204
       } : {
         responseText: "Error updating document.",
         responseCode: 500
