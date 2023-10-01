@@ -1,25 +1,95 @@
-// LOCALHOST
-###
-GET http://localhost:8080/
-### Returns a default message - no data.
-GET http://localhost:8080/contacts
-### Returns all contacts in DB.
-GET http://localhost:8080/contacts?id=650f75b50809019a9a2fb6fe
-### Returns Mike Lewis
-GET http://localhost:8080/contacts?id=650f75b50809019a9a2fb6ff
-### Returns Cari Lewis
-GET http://localhost:8080/contacts?id=650f75b50809019a9a2fb700
-### Returns Melanie Lewis
+//////////////////////////////////////////////
+////////////////  LOCALHOST  /////////////////
+//////////////////////////////////////////////
 
-// RENDER DEPLOYMENT
-###
-GET https://contact-list-3kmf.onrender.com/
+//// GET
 ### Returns a default message - no data.
-GET https://contact-list-3kmf.onrender.com/contacts/
-### Returns all contacts in DB.
-GET https://contact-list-3kmf.onrender.com/contacts?id=650f75b50809019a9a2fb701
-### Returns Braden Lewis
-GET https://contact-list-3kmf.onrender.com/contacts?id=650f75b50809019a9a2fb702
-### Returns Chris Lewis
-GET https://contact-list-3kmf.onrender.com/contacts?id=650f75b50809019a9a2fb703
-### Returns Haelie Lewis
+GET http://localhost:8080/ HTTP/1.1
+
+
+### Read and return all contacts in DB.
+GET http://localhost:8080/contacts HTTP/1.1
+
+### Read and return a single document specified by ID.
+GET http://localhost:8080/contacts/650f75b50809019a9a2fb6fe HTTP/1.1
+
+
+//// POST
+### Create a new document and add to the collection.
+POST http://localhost:8080/contacts HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Sammy",
+    "lastName": "Lewis",
+    "email": "sammy@email.com",
+    "favoriteColor": "Blonde",
+    "birthday": "April 16"
+}
+
+//// PUT
+### Update/change a specific document specified by ID.
+PUT http://localhost:8080/contacts/650f75b50809019a9a2fb700 HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Melanie",
+    "lastName": "Lewis",
+    "email": "traingirl@email.com",
+    "favoriteColor": "Emerald Green",
+    "birthday": "June 26"
+}
+
+//// DELETE
+### Delete a specific document specified by ID. 
+DELETE http://localhost:8080/contacts/65189af1be4362bd2b0a275e HTTP/1.1
+content-type: application/json
+
+
+//////////////////////////////////////////////
+/////////////////   RENDER   /////////////////
+//////////////////////////////////////////////
+
+
+//// GET
+### Returns a default message - no data.
+GET https://contacts-week-03.onrender.com/ HTTP/1.1
+
+
+### Read and return all contacts in DB.
+GET https://contacts-week-03.onrender.com/contacts HTTP/1.1
+
+### Read and return a single document specified by ID.
+GET https://contacts-week-03.onrender.com/contacts/650f75b50809019a9a2fb700 HTTP/1.1
+
+
+//// POST
+### Create a new document and add to the collection.
+POST https://contacts-week-03.onrender.com/contacts HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Sammy",
+    "lastName": "Lewis",
+    "email": "sammy@email.com",
+    "favoriteColor": "Blonde",
+    "birthday": "April 16"
+}
+
+//// PUT
+### Update/change a specific document specified by ID. 
+PUT https://contacts-week-03.onrender.com/contacts/650f75b50809019a9a2fb700 HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Melanie Rae",
+    "lastName": "Lewis",
+    "email": "traingirl@email.com",
+    "favoriteColor": "Purple",
+    "birthday": "June 26"
+}
+
+//// DELETE
+### Delete a specific document specified by ID. 
+DELETE https://contacts-week-03.onrender.com/contacts/6518c265b98d05cdb01d61cf HTTP/1.1
+content-type: application/json
