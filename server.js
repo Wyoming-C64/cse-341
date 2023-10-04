@@ -1,3 +1,4 @@
+const About = require('./about');
 const express = require("express");
 const bodyParser = require('body-parser');
 
@@ -16,12 +17,15 @@ app.use(bodyParser.json());
 
 app.use(cors()).use('/', require('./routes'));
 
+console.log('\n');
+console.log(About.name + ' v' + About.version + ' by ' + About.author);
+
 mongodb.initDb((err, mongodb) => {
     if (err) {
         console.log(err);
     } else {
         console.log("MongoDB is connected.");
-        app.listen(Port, () => console.log("Server is running. Listening on port " + Port + "."));
+        app.listen(Port, () => console.log("Server is running. Listening on port " + Port + ".\n"));
     }
 });
 

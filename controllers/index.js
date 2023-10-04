@@ -1,7 +1,5 @@
-// DELETE Controller
-
-const mongoDb = require('../db/connect'); // Must connect to DB if not already.
-const {ObjectId} = require('mongodb');
+// ROOT Controller
+const About = require('../about');
 
 const defaultRoute = async(req, res) => {
   res.setHeader('Content-Type', 'text/html');  // Set the header to tell the client what to expect.
@@ -10,10 +8,10 @@ const defaultRoute = async(req, res) => {
     "<!DOCTYPE html>" +
     "<html>" +
     " <head>" +
-    "   <title>Mike's Contacts API version 0.3</title>" +
+    "   <title>" + About.name + " version " + About.version + "</title>" +
     " </head>" +
     " <body>" +
-    "   <pre>Mike's Contacts API version 0.3</pre>" +
+    "   <pre>" + About.name + " version " + About.version + "</pre>" +
     " </body>" +
     "</html>"
   );
