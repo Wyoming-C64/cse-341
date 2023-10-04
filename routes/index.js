@@ -1,8 +1,9 @@
 // ROOT ROUTES
 
 const routes = require('express').Router();
+const contacts = require('./contacts');
 
-const rootCtrl = require('../controllers');
 routes.get('/', rootCtrl.defaultRoute);
+routes.use('/contacts', contacts);
 
 module.exports = routes;
