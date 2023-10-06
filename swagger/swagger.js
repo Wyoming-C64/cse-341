@@ -12,13 +12,7 @@ const doc = {
   schemes: ['http'],   
   consumes: ['application/json'], 
   produces: ['application/json'], 
-  tags: [       
-    {
-      name: 'id',        
-      description: 'The ID token for a particular contact record in the database.',
-    },
-    
-  ],
+  tags: [],
 };
 
 const outputFile = './swagger/swaggerDoc.json';

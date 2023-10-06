@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const mongodb = require('./db/connect');            // Contains actual connection code
 
-var cors = require('cors');
+const cors = require('cors');
 
 const app = express();
 

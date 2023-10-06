@@ -7,12 +7,6 @@
   },
   "host": "localhost:8080",
   "basePath": "/",
-  "tags": [
-    {
-      "name": "id",
-      "description": "The ID token for a particular contact record in the database."
-    }
-  ],
   "schemes": [
     "http"
   ],
@@ -23,46 +17,180 @@
     "application/json"
   ],
   "paths": {
-    "/": {
+    "/api-docs": {
       "get": {
         "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Return API name and version number.",
+        "description": "This endpoint simply returns an object containing the name of the API, version number, and author.",
         "produces": [
-          null
+          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Returns the version information for the API.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Contacts REST API"
+                },
+                "version": {
+                  "type": "string",
+                  "example": "1.0.4"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "Mike Lewis"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/contacts/": {
       "get": {
-        "description": "",
+        "summary": "Return all contacts.",
+        "description": "Returns all contacts in the collection, no filtering.",
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "All contacts successfully fetched and returned in an array.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "650f75b50809019a9a2fb6fe"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "Mike"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Lewis"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "mikelewis@email.com"
+                  },
+                  "favoriteColor": {
+                    "type": "string",
+                    "example": "Redd"
+                  },
+                  "birthday": {
+                    "type": "string",
+                    "example": "May 5"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "ERROR - Internal server or database error."
           }
         }
       },
       "post": {
-        "description": "",
+        "summary": "Add a single contact.",
+        "description": "Adds a single contact using information provided in a JSON body.",
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "jsonObj",
+            "in": "body",
+            "description": "A valid JSON object with applicable data elements populated.",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "Test"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "User"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "test_user@email.com"
+                },
+                "favoriteColor": {
+                  "type": "string",
+                  "example": "Green"
+                },
+                "birthday": {
+                  "type": "string",
+                  "example": "January 1"
+                }
+              },
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "favoriteColor",
+                "birthday"
+              ]
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "A single contact is added with the data given. Return result includes the assigned ID number.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "acknowledged": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "insertedId": {
+                  "type": "string",
+                  "example": "<hex-string>"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad/Missing data error."
+          },
+          "500": {
+            "description": "Internal server or database error."
           }
         }
       }
     },
     "/contacts/{id}": {
       "get": {
-        "description": "",
+        "summary": "Get a single contact.",
+        "description": "Returns a single contact identified by ID.",
         "produces": [
           "application/json"
         ],
@@ -71,12 +199,52 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "objectId",
+            "description": "A valid and unique ID for the contact.",
+            "format": "hex"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "A single contact with matching ID successfully fetched and returned.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "650f75b50809019a9a2fb6fe"
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "Mike"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Lewis"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "mikelewis@email.com"
+                },
+                "favoriteColor": {
+                  "type": "string",
+                  "example": "Redd"
+                },
+                "birthday": {
+                  "type": "string",
+                  "example": "May 5"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found."
+          },
+          "500": {
+            "description": "ERROR - Internal server or database error."
           }
         }
       },
