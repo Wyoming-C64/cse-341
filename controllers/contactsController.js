@@ -98,7 +98,7 @@ const getOne = async (req, res, next) => {
     */
     console.log(`GET document ${paddedId}: 404 - Not found.`);
     if (!res.headersSent) {
-      res.setHeader('Content-Type', 'application/json');  
+      res.setHeader('Content-Type', 'text/plain');  
       res.status(404).send('Not found.');  
     }
   }
