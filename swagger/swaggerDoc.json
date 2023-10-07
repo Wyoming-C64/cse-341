@@ -5,10 +5,10 @@
     "title": "Contacts REST API",
     "description": "Contacts REST API v1.0.4 by Mike Lewis for BYU-I CSE-341: Web Services"
   },
-  "host": "localhost:8080",
+  "host": "https://contacts-week-04.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "consumes": [
     "application/json"
