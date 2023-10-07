@@ -153,7 +153,7 @@ const postData = async (req, res) => {
         */
         console.log(`    201 - Created. New ID = ${resultData.insertedId}.`); 
         res.setHeader('Content-Type', 'application/json'); 
-        res.status(201).send(resultData.insertedId); 
+        res.status(201).send(resultData); 
       }
     )
     .catch( (err) => {
