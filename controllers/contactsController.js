@@ -9,6 +9,7 @@ const getData = async (req, res, next) => {
     #swagger.summary = 'Return all contacts.'
     #swagger.description = 'Returns all contacts in the collection, no filtering.'
   */
+  console.log(`GET ALL: `);
   const result = await mongoDb.getDb()
     .db('ml341_user-db')
     .collection('contacts')
@@ -29,7 +30,7 @@ const getData = async (req, res, next) => {
         }]
       }
     */
-    console.log(`GET ALL - OK`);
+    console.log(`    200 - OK`);
     res.setHeader('Content-Type', 'application/json');  
     res.status(200).json(lists); 
     
@@ -40,7 +41,7 @@ const getData = async (req, res, next) => {
         description: 'Internal server or database error.'
       }
     */
-    console.log(`GET ALL - ${err.message}`);
+    console.log(`    500 - ${err.message}`);
     res.status(500).send('Internal server or database error.');
   });
 };
@@ -57,6 +58,7 @@ const getOne = async (req, res, next) => {
   */
 
   const paddedId = req.params.id.padStart(24,'0');
+  console.log(`GET document ${paddedId}:`);
   const myObjId = new ObjectId(paddedId);
   const result = await mongoDb.getDb()
     .db('ml341_user-db')
@@ -68,7 +70,7 @@ const getOne = async (req, res, next) => {
         description: 'Internal server or database error.'
       }
     */
-      console.log(`GET document ${paddedId}: 500 - ${err}`);
+      console.log(`    500 - ${err}`);
       res.status(500).send('Internal server or database error.');
       return false;
     });
@@ -87,7 +89,7 @@ const getOne = async (req, res, next) => {
         }
       }
     */
-    console.log(`GET document ${paddedId}: 200 - OK`);
+    console.log(`    200 - OK`);
     res.setHeader('Content-Type', 'application/json');  
     res.status(200).json(result); 
   } else {
@@ -96,7 +98,7 @@ const getOne = async (req, res, next) => {
         description: 'Not Found.'
       }
     */
-    console.log(`GET document ${paddedId}: 404 - Not found.`);
+    console.log(`    404 - Not found.`);
     if (!res.headersSent) {
       res.setHeader('Content-Type', 'text/plain');  
       res.status(404).send('Not found.');  
@@ -107,6 +109,7 @@ const getOne = async (req, res, next) => {
 
 /////// POST ///////
 const postData = async (req, res) => {
+  console.log(`POST document: `);
   /*  #swagger.summary = 'Add a single contact.'
       #swagger.description = 'Adds a single contact using information provided in a JSON body.'
       #swagger.parameters['contact'] = {
@@ -148,7 +151,7 @@ const postData = async (req, res) => {
             }
           }
         */
-        console.log(`POST document: 201 - Created. New ID = ${resultData.insertedId}.`); 
+        console.log(`    201 - Created. New ID = ${resultData.insertedId}.`); 
         res.setHeader('Content-Type', 'application/json'); 
         res.status(201).json(resultData); 
       }
@@ -159,7 +162,7 @@ const postData = async (req, res) => {
           description: 'Internal server or database error.'
         }
       */
-      console.log(`POST document: 500 - ${err.message}.`);
+      console.log(`    500 - ${err.message}.`);
       res.status(500).send('Internal server or database error.');
 
     });
@@ -169,7 +172,7 @@ const postData = async (req, res) => {
         description: 'Bad or missing data error.'
       }
     */
-    console.log(`POST document: 400 - Bad or missing data error.`);
+    console.log(`    400 - Bad or missing data error.`);
     res.status(400).send('Bad or missing data error.');
   }
     
@@ -201,6 +204,7 @@ const putData = async (req, res, next) => {
       }
   */
   const paddedId = req.params.id.padStart(24,'0');
+  console.log(`PUT document ${paddedId}:`);
   const myObjId = new ObjectId(paddedId);
   const dbResult = mongoDb.getDb()
     .db('ml341_user-db')
@@ -230,7 +234,7 @@ const putData = async (req, res, next) => {
         code: 404,
         text: "Not found."
       };
-      console.log(`PUT document ${paddedId}: ${response.code} - ${response.text}`); 
+      console.log(`    ${response.code} - ${response.text}`); 
       res.setHeader('Content-Type', 'text/plain'); 
       res.status(response.code).send(response.text);
     }
@@ -241,7 +245,7 @@ const putData = async (req, res, next) => {
         description: "Internal server or database error.",
       }
     */
-    console.log(`PUT document ${paddedId}: 500 - ${err}`);
+    console.log(`    ${paddedId}: 500 - ${err}`);
     res.setHeader('Content-Type', 'text/plain'); 
     res.status(500).send("Internal server or database error.");
   });
@@ -261,6 +265,7 @@ const deleteData = async (req, res, next) => {
       } 
   */
   const paddedId = req.params.id.padStart(24,'0');
+  console.log(`DELETE document ${paddedId}:`);
   const myObjId = new ObjectId(paddedId);
   const dbResult = mongoDb.getDb()
     .db('ml341_user-db')
@@ -279,7 +284,7 @@ const deleteData = async (req, res, next) => {
           }
         }
       */
-      console.log(`DELETE document ${paddedId}: 200 - Success - Documents deleted = ${resultData.deletedCount}`); 
+      console.log(`    200 - Success - Documents deleted = ${resultData.deletedCount}`); 
       res.setHeader('Content-Type', 'application/json'); 
       res.status(200).json(resultData);
     }
