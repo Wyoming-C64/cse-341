@@ -9,13 +9,11 @@ const getData = async (req, res, next) => {
     #swagger.summary = 'Return all contacts.'
     #swagger.description = 'Returns all contacts in the collection, no filtering.'
   */
-  
   const result = await mongoDb.getDb()
     .db('ml341_user-db')
     .collection('contacts')
     .find();
   
-    // Convert result to an array, THEN call a function to send data to frontend.
   result.toArray()
   .then( (lists) => {
     /*
@@ -31,6 +29,7 @@ const getData = async (req, res, next) => {
         }]
       }
     */
+    console.log(`GET ALL - OK`);
     res.setHeader('Content-Type', 'application/json');  
     res.status(200).json(lists); 
     
@@ -38,29 +37,27 @@ const getData = async (req, res, next) => {
   .catch( (err) => {
     /*
       #swagger.responses[500] = {
-        description: 'ERROR - Internal server or database error.'
+        description: 'Internal server or database error.'
       }
     */
-    res.status(500).send({
-      message: err.message || 'Unknown error while accessing database.',
-    });
+    console.log(`GET ALL - ${err.message}`);
+    res.status(500).send('Internal server or database error.');
   });
 };
 
 const getOne = async (req, res, next) => {
   /*  #swagger.summary = 'Get a single contact.'
-      #swagger.description = 'Returns a single contact identified by ID.'
+      #swagger.description = 'Returns a single contact identified by `id`.'
       #swagger.parameters['id'] = {
         in: 'path',
         description: 'A valid and unique ID for the contact.',
-        type: 'objectId',
-        format: 'hex',
+        type: 'string',
+        format: 'hex'
       }
   */
 
-  const myObjId = new ObjectId(req.params.id);
-  console.log(myObjId);
-
+  const paddedId = req.params.id.padStart(24,'0');
+  const myObjId = new ObjectId(paddedId);
   const result = await mongoDb.getDb()
     .db('ml341_user-db')
     .collection('contacts')
@@ -68,12 +65,12 @@ const getOne = async (req, res, next) => {
     .catch( (err) => {
       /*
       #swagger.responses[500] = {
-        description: 'ERROR - Internal server or database error.'
+        description: 'Internal server or database error.'
       }
     */
-      res.status(500).send({
-        message: err.message || 'Internal server or database error.',
-      })
+      console.log(`GET document ${paddedId}: 500 - ${err}`);
+      res.status(500).send('Internal server or database error.');
+      return false;
     });
   
   if (result) {
@@ -90,6 +87,7 @@ const getOne = async (req, res, next) => {
         }
       }
     */
+    console.log(`GET document ${paddedId}: 200 - OK`);
     res.setHeader('Content-Type', 'application/json');  
     res.status(200).json(result); 
   } else {
@@ -98,7 +96,11 @@ const getOne = async (req, res, next) => {
         description: 'Not Found.'
       }
     */
-    res.status(404).send('Not found.');  
+    console.log(`GET document ${paddedId}: 404 - Not found.`);
+    if (!res.headersSent) {
+      res.setHeader('Content-Type', 'application/json');  
+      res.status(404).send('Not found.');  
+    }
   }
   
 }
@@ -107,9 +109,9 @@ const getOne = async (req, res, next) => {
 const postData = async (req, res) => {
   /*  #swagger.summary = 'Add a single contact.'
       #swagger.description = 'Adds a single contact using information provided in a JSON body.'
-      #swagger.parameters['jsonObj'] = {
+      #swagger.parameters['contact'] = {
         in: 'body',
-        description: 'A valid JSON object with applicable data elements populated.',
+        description: 'A valid JSON object with required data elements populated.',
         type: 'object',
         format: 'json',
         schema: {
@@ -139,16 +141,16 @@ const postData = async (req, res) => {
       (resultData) => {
         /*
           #swagger.responses[201] = {
-            description: "A single contact is added with the data given. Return result includes the assigned ID number.",
+            description: "Created - A single contact is added with the data given. Return result includes the assigned ID number.",
             schema: {
               acknowledged: true,
               insertedId: '<hex-string>'
             }
           }
         */
-        console.log("Added document.") 
+        console.log(`POST document: 201 - Created. New ID = ${resultData.insertedId}.`); 
         res.setHeader('Content-Type', 'application/json'); 
-        res.status(201).json(resultData);  // 201 CREATED
+        res.status(201).json(resultData); 
       }
     )
     .catch( (err) => {
@@ -157,24 +159,49 @@ const postData = async (req, res) => {
           description: 'Internal server or database error.'
         }
       */
-      res.status(500).send({
-        message: err.message || 'Internal server or database error.',
-      });
+      console.log(`POST document: 500 - ${err.message}.`);
+      res.status(500).send('Internal server or database error.');
 
     });
   } else {
     /*
       #swagger.responses[400] = {
-        description: 'Bad/Missing data error.'
+        description: 'Bad or missing data error.'
       }
     */
+    console.log(`POST document: 400 - Bad or missing data error.`);
+    res.status(400).send('Bad or missing data error.');
   }
     
 };
 
 /////// PUT ///////
 const putData = async (req, res, next) => {
-  const myObjId = new ObjectId(req.params.id);
+  let response = {};
+  /*  #swagger.summary = 'Update a single contact.'
+      #swagger.description = 'Updates a single contact identified by `id` using information provided in a JSON body.'
+      #swagger.parameters['id'] = {
+        in: 'path',
+        description: 'A valid and unique ID for the contact.',
+        type: 'string',
+        format: 'hex',
+      } 
+      #swagger.parameters['contact'] = {
+        in: 'body',
+        description: 'A valid JSON object populated with one or more data fields to be changed.',
+        type: 'object',
+        format: 'json',
+        schema: {
+          $firstName: 'NewName',
+          $lastName: 'NewSurname',
+          $email: 'new@email.com',
+          $favoriteColor: 'New Color',
+          $birthday: 'January 1'
+        }
+      }
+  */
+  const paddedId = req.params.id.padStart(24,'0');
+  const myObjId = new ObjectId(paddedId);
   const dbResult = mongoDb.getDb()
     .db('ml341_user-db')
     .collection('contacts')
@@ -184,24 +211,57 @@ const putData = async (req, res, next) => {
   );   
   dbResult.then( 
     (resultData) => {
-      const response = resultData.ok === 1 ? {
-        responseText: "Success",
-        responseCode: 204
+      response = resultData
+              .lastErrorObject
+              .updatedExisting ? {
+        /*
+          #swagger.responses[204] = {
+            description: "Success - A single contact is updated with the data given. No data is returned other than this status.",
+          }
+        */
+        code: 204,
+        text: "Success (no content)"
       } : {
-        responseText: "Error updating document.",
-        responseCode: 500
+        /*
+          #swagger.responses[404] = {
+            description: "Not found.",
+          }
+        */
+        code: 404,
+        text: "Not found."
       };
-      console.log(response) 
-      res.setHeader('Content-Type', 'application/json'); 
-      res.status(response.responseCode).json(response);
+      console.log(`PUT document ${paddedId}: ${response.code} - ${response.text}`); 
+      res.setHeader('Content-Type', 'text/plain'); 
+      res.status(response.code).send(response.text);
     }
-  );
+  )
+  .catch ( (err) => {
+    /*
+      #swagger.responses[500] = {
+        description: "Internal server or database error.",
+      }
+    */
+    console.log(`PUT document ${paddedId}: 500 - ${err}`);
+    res.setHeader('Content-Type', 'text/plain'); 
+    res.status(500).send("Internal server or database error.");
+  });
+  
 };
 
 
 /////// DELETE ///////
 const deleteData = async (req, res, next) => {
-  const myObjId = new ObjectId(req.params.id);
+  /*  #swagger.summary = 'Delete a single contact.'
+      #swagger.description = 'Deletes a single contact identified by `id`. If `id` does not exist, no action is taken and no error occurs. Check the `deletedCount` attribute in the response to determine if a contact was actually deleted.'
+      #swagger.parameters['id'] = {
+        in: 'path',
+        description: 'A valid and unique ID for the contact.',
+        type: 'string',
+        format: 'hex',
+      } 
+  */
+  const paddedId = req.params.id.padStart(24,'0');
+  const myObjId = new ObjectId(paddedId);
   const dbResult = mongoDb.getDb()
     .db('ml341_user-db')
     .collection('contacts')
@@ -210,12 +270,32 @@ const deleteData = async (req, res, next) => {
   );   
   dbResult.then( 
     (resultData) => {
-      console.log("Delete document " + req.params.id) 
+      /*
+        #swagger.responses[200] = {
+          description: " A single contact identified by `id` is deleted from the collection, if it exists. The response is an object containing an aknowledgement and the number of matching contacts deleted.",
+          schema: {
+            acknowledged: true,
+            deletedCount: 1
+          }
+        }
+      */
+      console.log(`DELETE document ${paddedId}: 200 - Success - Documents deleted = ${resultData.deletedCount}`); 
       res.setHeader('Content-Type', 'application/json'); 
       res.status(200).json(resultData);
     }
-  );
+  )
+  .catch( (err) => {
+    /*
+      #swagger.responses[500] = {
+        description: 'Internal server or database error.'
+      }
+    */
+    console.log(`DELETE document ${paddedId}: 500 - ${err.message}`)
+    res.status(500).send('Internal server or database error.');
+
+  });
 };
+
 
 module.exports = {
   getData,

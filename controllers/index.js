@@ -12,13 +12,10 @@ const defaultRoute = async(req, res) => {
           author: "Mike Lewis"
         } 
       }
-    
-*/
-  
+  */
+  console.log('GET API version: 200 - OK.');
   res.setHeader('Content-Type', 'application/json');  
-  res.status(200).json([About]);
-
-
+  res.status(200).json(About);
 }
 
 module.exports = {

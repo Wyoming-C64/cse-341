@@ -108,7 +108,7 @@
             }
           },
           "500": {
-            "description": "ERROR - Internal server or database error."
+            "description": "Internal server or database error."
           }
         }
       },
@@ -120,9 +120,9 @@
         ],
         "parameters": [
           {
-            "name": "jsonObj",
+            "name": "contact",
             "in": "body",
-            "description": "A valid JSON object with applicable data elements populated.",
+            "description": "A valid JSON object with required data elements populated.",
             "format": "json",
             "schema": {
               "type": "object",
@@ -160,7 +160,7 @@
         ],
         "responses": {
           "201": {
-            "description": "A single contact is added with the data given. Return result includes the assigned ID number.",
+            "description": "Created - A single contact is added with the data given. Return result includes the assigned ID number.",
             "schema": {
               "type": "object",
               "properties": {
@@ -179,7 +179,7 @@
             }
           },
           "400": {
-            "description": "Bad/Missing data error."
+            "description": "Bad or missing data error."
           },
           "500": {
             "description": "Internal server or database error."
@@ -190,7 +190,7 @@
     "/contacts/{id}": {
       "get": {
         "summary": "Get a single contact.",
-        "description": "Returns a single contact identified by ID.",
+        "description": "Returns a single contact identified by `id`.",
         "produces": [
           "application/json"
         ],
@@ -199,7 +199,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "objectId",
+            "type": "string",
             "description": "A valid and unique ID for the contact.",
             "format": "hex"
           }
@@ -244,31 +244,79 @@
             "description": "Not Found."
           },
           "500": {
-            "description": "ERROR - Internal server or database error."
+            "description": "Internal server or database error."
           }
         }
       },
       "put": {
-        "description": "",
+        "summary": "Update a single contact.",
+        "description": "Updates a single contact identified by `id` using information provided in a JSON body.",
         "produces": [
-          "application/json"
+          "text/plain"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "A valid and unique ID for the contact.",
+            "format": "hex"
+          },
+          {
+            "name": "contact",
+            "in": "body",
+            "description": "A valid JSON object populated with one or more data fields to be changed.",
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "NewName"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "NewSurname"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "new@email.com"
+                },
+                "favoriteColor": {
+                  "type": "string",
+                  "example": "New Color"
+                },
+                "birthday": {
+                  "type": "string",
+                  "example": "January 1"
+                }
+              },
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "favoriteColor",
+                "birthday"
+              ]
+            }
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "204": {
+            "description": "Success - A single contact is updated with the data given. No data is returned other than this status."
+          },
+          "404": {
+            "description": "Not found."
+          },
+          "500": {
+            "description": "Internal server or database error."
           }
         }
       },
       "delete": {
-        "description": "",
+        "summary": "Delete a single contact.",
+        "description": "Deletes a single contact identified by `id`. If `id` does not exist, no action is taken and no error occurs. Check the `deletedCount` attribute in the response to determine if a contact was actually deleted.",
         "produces": [
           "application/json"
         ],
@@ -277,12 +325,33 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "A valid and unique ID for the contact.",
+            "format": "hex"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": " A single contact identified by `id` is deleted from the collection, if it exists. The response is an object containing an aknowledgement and the number of matching contacts deleted.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "acknowledged": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "deletedCount": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server or database error."
           }
         }
       }
