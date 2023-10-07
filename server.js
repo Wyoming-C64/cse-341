@@ -15,18 +15,18 @@ const Port = process.env.Port || 8080;  // If no defined environment port, liste
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
-/* 
-cors(
-        {
-            origin: [
-                'http://localhost',
-                'https://cse341-contacts-frontend.netlify.app/'
-            ]
-        }
-    )
-*/
+const corsSettings = {
+    origin: [
+        'http://localhost',
+        'https://cse341-contacts-frontend.netlify.app/',
+        'https://contacts-week-04.onrender.com/'
+    ],
+    methods: [
+        'GET','POST','PUT','DELETE','UPDATE','PATCH'
+    ]
+};
 
-app .use(cors({ methods: ['GET','POST','PUT','DELETE','UPDATE','PATCH']}))
+app .use(cors(corsSettings))
     .use('/', require('./routes'));
 
 console.log('\n');
