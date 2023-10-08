@@ -1,10 +1,11 @@
+const About = require('./about');
 const express = require("express");
 const bodyParser = require('body-parser');
 
 const MongoClient = require('mongodb').MongoClient;
 const mongodb = require('./db/connect');            // Contains actual connection code
 
-var cors = require('cors');
+const cors = require('cors');
 
 const app = express();
 
@@ -14,15 +15,24 @@ const Port = process.env.Port || 8080;  // If no defined environment port, liste
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
-app.use(cors()).use('/', require('./routes'));
-app.use(cors()).use('/contacts', require('./routes/contacts'));
+const corsSettings = { 
+    methods: [
+        'GET','POST','PUT','DELETE','UPDATE','PATCH'
+    ]
+};
+
+app .use(cors(corsSettings))
+    .use('/', require('./routes'));
+
+console.log('\n');
+console.log(About.name + ' v' + About.version + ' by ' + About.author);
 
 mongodb.initDb((err, mongodb) => {
     if (err) {
         console.log(err);
     } else {
         console.log("MongoDB is connected.");
-        app.listen(Port, () => console.log("Server is running. Listening on port " + Port + "."));
+        app.listen(Port, () => console.log("Server is running. Listening on port " + Port + ".\n"));
     }
 });
 

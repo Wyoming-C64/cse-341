@@ -1,22 +1,21 @@
-// DELETE Controller
-
-const mongoDb = require('../db/connect'); // Must connect to DB if not already.
-const {ObjectId} = require('mongodb');
+// ROOT Controller
+const About = require('../about');
 
 const defaultRoute = async(req, res) => {
-  res.setHeader('Content-Type', 'text/html');  // Set the header to tell the client what to expect.
-  res.status(200);
-  res.send(
-    "<!DOCTYPE html>" +
-    "<html>" +
-    " <head>" +
-    "   <title>Mike's Contacts API version 0.3</title>" +
-    " </head>" +
-    " <body>" +
-    "   <pre>Mike's Contacts API version 0.3</pre>" +
-    " </body>" +
-    "</html>"
-  );
+  /*  #swagger.summary = 'Return API name and version number.'
+      #swagger.description = 'This endpoint simply returns an object containing the name of the API, version number, and author.'
+      #swagger.responses[200] = { 
+        description: "Returns the version information for the API.",
+        schema: {
+          name: "Contacts REST API",
+          version: "1.0.4",
+          author: "Mike Lewis"
+        } 
+      }
+  */
+  console.log('GET API version: 200 - OK.');
+  res.setHeader('Content-Type', 'application/json');  
+  res.status(200).json(About);
 }
 
 module.exports = {

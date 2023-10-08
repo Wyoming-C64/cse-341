@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: No test specified.\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "swag-gen": "node ./swagger/swagger.js"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +16,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "mongoose": "^7.5.2"
+    "mongoose": "^7.5.2",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "swagger-autogen": "^2.23.6"
   }
 }
