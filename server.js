@@ -15,10 +15,7 @@ const Port = process.env.Port || 8080;  // If no defined environment port, liste
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
-const corsSettings = {
-    origin: [
-        '*'
-    ],
+const corsSettings = { 
     methods: [
         'GET','POST','PUT','DELETE','UPDATE','PATCH'
     ]
