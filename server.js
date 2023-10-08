@@ -17,9 +17,7 @@ app.use(bodyParser.json());
 
 const corsSettings = {
     origin: [
-        'http://localhost',
-        'https://cse341-contacts-frontend.netlify.app',
-        'https://contacts-week-04.onrender.com'
+        '*'
     ],
     methods: [
         'GET','POST','PUT','DELETE','UPDATE','PATCH'
